@@ -141,6 +141,8 @@ func main() {
 ## Roadmap
 
 - [x] Implement catching errors of different types.
+- [ ] Tests
+- [ ] CI
 
 See the [open issues](https://github.com/ez4o/go-try/issues) for a full list of
 proposed features (and known issues).
