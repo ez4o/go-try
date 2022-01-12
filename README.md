@@ -99,11 +99,12 @@ Try(func () {
 | `Try()`          | Takes `func ()`, wrap your code here!                                                                                                                                                                      |
 | `Catch()`        | Takes `func (any)` or `func (any, *StackTrace)`, and it will only accept the error type you have declared. You can accept second parameter, which is the stack trace begin from the last `ThrowOnError()`. |
 | `ThrowOnError()` | Takes `any`. **Will only throw an error when the parameter is not** `nil`.                                                                                                                                 |
-| `st.Print()`     | If you have declared the second parameter `st *StackTrace`, you can print the stack trace using `st.Print()`                                                                                               |
+| `st.Print()`     | If you have declared the second parameter `st *StackTrace`, you can print the stack trace using `st.Print()`.                                                                                              |
 
 ### Example
 
-Let's say you want to fetch JSON from a url and unmarshal it, you can simply write it like this:
+Let's say you want to fetch JSON from a url and unmarshal it, you can simply
+write it like this:
 
 ```go
 import (
@@ -135,6 +136,9 @@ func main() {
   })
 }
 ```
+
+For more examples, head over to
+<https://github.com/ez4o/go-try/tree/main/.examples>!
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
