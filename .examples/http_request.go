@@ -10,17 +10,17 @@ import (
 )
 
 func main() {
-	Try(func(throwOnError func(err any)) {
+	Try(func() {
 		resp, err := http.Get("https://jsonplaceholder.typicode.com/posts")
-		throwOnError(err)
+		ThrowOnError(err)
 
 		resp.Body.Close()
 		b, err := ioutil.ReadAll(resp.Body)
-		throwOnError(err)
+		ThrowOnError(err)
 
 		var data []map[string]interface{}
 		err = json.Unmarshal(b, &data)
-		throwOnError(err)
+		ThrowOnError(err)
 
 		fmt.Println(data)
 	}).Catch(func(e *Exception) {
