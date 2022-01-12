@@ -4,8 +4,8 @@ import (
 	"runtime"
 )
 
-func getStackTrace() []StackInfo {
-	stackTrace := make([]StackInfo, 0)
+func getStackTrace() *StackTrace {
+	stackInfos := make([]StackInfo, 0)
 
 	// Skip caller [0, 1, 2, 3, 5, 6].
 	for i := 4; ; i++ {
@@ -18,24 +18,24 @@ func getStackTrace() []StackInfo {
 			break
 		}
 
-		stackTrace = append(stackTrace, StackInfo{pc, file, line})
+		stackInfos = append(stackInfos, StackInfo{pc, file, line})
 	}
 
-	return stackTrace[:len(stackTrace)-1]
+	return &StackTrace{stackInfos}
 }
 
-func Try(f func()) *Handler {
-	var h *Handler
+func Try(f func()) *Exception {
+	var e *Exception
 
 	func() {
 		defer func() {
 			if r := recover(); r != nil {
-				h = &Handler{&Exception{r, getStackTrace()}}
+				e = &Exception{r, getStackTrace()}
 			}
 		}()
 
 		f()
 	}()
 
-	return h
+	return e
 }

@@ -23,8 +23,8 @@ func main() {
 		ThrowOnError(err)
 
 		fmt.Println(data)
-	}).Catch(func(e *Exception) {
-		fmt.Println(e.Error)
-		e.PrintStackTrace()
+	}).Catch(func(e error, st *StackTrace) {
+		fmt.Println(e)
+		st.Print()
 	})
 }
