@@ -5,6 +5,10 @@ import (
 )
 
 func (e *Exception) Catch(f any) *Exception {
+	if e == nil {
+		return nil
+	}
+
 	fVal := reflect.ValueOf(f)
 	fType := fVal.Type()
 
