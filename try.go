@@ -5,37 +5,34 @@ import (
 	"runtime"
 )
 
-func getStackTrace(skip int, depth int) string {
+func getStackTrace() string {
 	stackTrace := ""
-	pc := make([]uintptr, depth)
-	entriesAmount := runtime.Callers(skip, pc)
-	frames := runtime.CallersFrames(pc[:entriesAmount])
 
-	for {
-		frame, more := frames.Next()
-		stackTrace += fmt.Sprintf("%s\n\t%s:%d", frame.Func.Name(), frame.File, frame.Line)
+	// Skip caller [0, 1, 2, 3, 5, 6].
+	for i := 4; ; i++ {
+		if i == 5 || i == 6 {
+			continue
+		}
 
-		if more {
-			stackTrace += "\n"
-		} else {
+		pc, file, line, ok := runtime.Caller(i)
+		if !ok {
 			break
 		}
+
+		f := runtime.FuncForPC(pc)
+		stackTrace += fmt.Sprintf("%s\n\t%s:%d\n", f.Name(), file, line)
 	}
 
-	return stackTrace
+	return stackTrace[:len(stackTrace)-1]
 }
 
 func Try(f func()) *Handler {
-	const TRACE_DEPTH = 10
-
 	var h *Handler
-
-	stackTrace := getStackTrace(3, TRACE_DEPTH)
 
 	func() {
 		defer func() {
 			if r := recover(); r != nil {
-				h = &Handler{&Exception{r, getStackTrace(5, 1) + "\n" + stackTrace}}
+				h = &Handler{&Exception{r, getStackTrace()}}
 			}
 		}()
 
