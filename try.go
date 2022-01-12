@@ -1,12 +1,11 @@
 package try
 
 import (
-	"fmt"
 	"runtime"
 )
 
-func getStackTrace() string {
-	stackTrace := ""
+func getStackTrace() []StackInfo {
+	stackTrace := make([]StackInfo, 0)
 
 	// Skip caller [0, 1, 2, 3, 5, 6].
 	for i := 4; ; i++ {
@@ -19,8 +18,7 @@ func getStackTrace() string {
 			break
 		}
 
-		f := runtime.FuncForPC(pc)
-		stackTrace += fmt.Sprintf("%s\n\t%s:%d\n", f.Name(), file, line)
+		stackTrace = append(stackTrace, StackInfo{pc, file, line})
 	}
 
 	return stackTrace[:len(stackTrace)-1]

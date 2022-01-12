@@ -25,6 +25,6 @@ func main() {
 		fmt.Println(data)
 	}).Catch(func(e *Exception) {
 		fmt.Println(e.Error)
-		fmt.Println(e.StackTrace)
+		e.PrintStackTrace()
 	})
 }
